@@ -3,7 +3,7 @@ const indexRouter = Router();
 const { checkAuthenticated } = require("../middleware/auth");
 
 indexRouter.get("/", checkAuthenticated, async (req, res) => {
-  res.send("hello");
+  res.render("index", { user: req.user });
 });
 
 module.exports = indexRouter;
