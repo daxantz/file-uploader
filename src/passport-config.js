@@ -29,7 +29,7 @@ function initialize(passport) {
   passport.deserializeUser(async (id, done) => {
     try {
       //   const user = await db.getUserById(id);
-      const user = await prisma.user.findUnique({ where: { id: id } });
+      const user = await prisma.user.findUnique({ where: { id: Number(id) } });
       return done(null, user);
     } catch (error) {
       done(error);
