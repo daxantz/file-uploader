@@ -12,6 +12,7 @@ exports.signUpPut = async (req, res) => {
       data: { name: name, email: email, password: hashedPassword },
     });
     console.log(req.body);
+    res.redirect("/login");
   } catch (error) {
     console.log(error);
   }
