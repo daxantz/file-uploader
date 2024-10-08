@@ -1,0 +1,14 @@
+<h1><%= folder.name %> <%= folder.id %></h1>
+<form action="/create-folder/<%= folder.id %> " method="post">
+  <button>Create folder</button>
+</form>
+//render all items (folders/files) that belong to root folder
+
+<ul>
+  <% currentFolders.forEach(function(folder) { %>
+  <li>
+    <a href="/storage/<%= folder.id %>"><%= folder.name %></a>
+    (ID: <%= folder.id %>)parent: <%= folder.parentFolderId %>
+  </li>
+  <% }); %>
+</ul>
