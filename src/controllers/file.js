@@ -6,18 +6,37 @@ exports.fileFormGet = (req, res) => {
 
 exports.filePut = async (req, res) => {
   try {
-    await prisma.file.create({
+    // const file = await prisma.file.create({
+    //   data: {
+    //     name: req.file.originalname,
+    //     userId: req.user.id,
+    //     mimetype: req.file.mimetype,
+    //     destination: req.file.destination,
+    //     filename: req.file.filename,
+    //     path: req.file.path,
+    //     size: req.file.size,
+    //     parentFolderId: Number(req.params.id),
+    //   },
+    // });
+    const currentFolder = await prisma.folder.update({
+      where: { id: Number(req.params.id) },
       data: {
-        name: req.file.originalname,
-        userId: req.user.id,
-        mimetype: req.file.mimetype,
-        destination: req.file.destination,
-        filename: req.file.filename,
-        path: req.file.path,
-        size: req.file.size,
+        files: {
+          create: {
+            name: req.file.originalname,
+            userId: req.user.id,
+            mimetype: req.file.mimetype,
+            destination: req.file.destination,
+            filename: req.file.filename,
+            path: req.file.path,
+            size: req.file.size,
+            parentFolderId: Number(req.params.id),
+          },
+        },
       },
     });
-    console.log(`this file has been uploaded, file: ${req.file}`);
+
+    console.log(`this file has been uploaded to: ${currentFolder.name}`);
     res.redirect("/");
   } catch (error) {
     console.log(error);
