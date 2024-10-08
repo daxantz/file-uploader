@@ -9,7 +9,14 @@ exports.signUpPut = async (req, res) => {
     const { name, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     await prisma.user.create({
-      data: { name: name, email: email, password: hashedPassword },
+      data: {
+        name: name,
+        email: email,
+        password: hashedPassword,
+        folders: {
+          create: [{ name: "root" }],
+        },
+      },
     });
     console.log(req.body);
     res.redirect("/login");
