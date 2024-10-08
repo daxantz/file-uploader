@@ -2,6 +2,16 @@
 <form action="/create-folder/<%= folder.id %> " method="post">
   <button>Create folder</button>
 </form>
+<form
+  action="/upload-file/<%= folder.id %>"
+  enctype="multipart/form-data"
+  method="post"
+>
+  <div class="form-group">
+    <input type="file" class="form-control-file" name="uploaded_file" />
+  </div>
+  <button type="submit">Submit</button>
+</form>
 //render all items (folders/files) that belong to root folder
 
 <ul>
@@ -9,6 +19,15 @@
   <li>
     <a href="/storage/<%= folder.id %>"><%= folder.name %></a>
     (ID: <%= folder.id %>)parent: <%= folder.parentFolderId %>
+    <form action="/update-folder/<%= folder.id %>/?_method=PATCH" method="post">
+      <input type="text" name="newName" />
+      <button>Confirm</button>
+    </form>
   </li>
-  <% }); %>
+  <% }); %> <% folder.files.forEach(function(file) { %>
+  <li>
+    <a href="/storage/<%= file.id %>"><%= file.name %></a>
+    (ID: <%= file.id %>)parent: <%= file.parentFolderId %>
+  </li>
+  <% }) %>
 </ul>
