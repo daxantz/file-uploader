@@ -19,4 +19,10 @@ router.patch(
   folderController.folderPatch
 );
 
+router.delete(
+  "/delete-folder/:id",
+  auth.checkAuthenticated,
+  folderController.folderDelete
+);
+
 module.exports = router;
