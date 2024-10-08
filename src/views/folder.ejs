@@ -23,6 +23,12 @@
       <input type="text" name="newName" />
       <button>Confirm</button>
     </form>
+    <form
+      action="/delete-folder/<%= folder.id %>/?_method=DELETE"
+      method="post"
+    >
+      <button>Delete</button>
+    </form>
   </li>
   <% }); %> <% folder.files.forEach(function(file) { %>
   <li>

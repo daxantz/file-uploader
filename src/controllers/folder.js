@@ -55,3 +55,18 @@ exports.folderPatch = async (req, res) => {
     console.log(error);
   }
 };
+
+exports.folderDelete = async (req, res) => {
+  try {
+    const deleteFolder = await prisma.folder.delete({
+      where: {
+        id: Number(req.params.id),
+      },
+    });
+
+    console.log("a folder  has been deleted: ", deleteFolder);
+    res.redirect(`/storage/${deleteFolder.parentFolderId}`);
+  } catch (error) {
+    console.log(error);
+  }
+};
