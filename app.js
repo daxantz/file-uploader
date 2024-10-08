@@ -10,6 +10,11 @@ const flash = require("express-flash");
 const { initialize, prisma } = require("./src/passport-config.js");
 const indexRouter = require("./src/routes/index.js");
 const signupRouter = require("./src/routes/signup.js");
+const loginRouter = require("./src/routes/login.js");
+const fileRouter = require("./src/routes/file.js");
+const folderRouter = require("./src/routes/folder.js");
+const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
+
 initialize(passport);
 app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
@@ -22,6 +27,11 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: new PrismaSessionStore(prisma, {
+      checkPeriod: 2 * 60 * 1000, //ms
+      dbRecordIdIsSessionId: true,
+      dbRecordIdFunction: undefined,
+    }),
   })
 );
 app.use(passport.initialize());
@@ -29,6 +39,9 @@ app.use(passport.session());
 
 app.use(indexRouter);
 app.use(signupRouter);
+app.use(loginRouter);
+app.use(fileRouter);
+app.use(folderRouter);
 
 async function main() {
   app.listen(3000, (req, res) => {
