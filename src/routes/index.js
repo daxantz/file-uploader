@@ -5,26 +5,16 @@ const { prisma } = require("../passport-config");
 
 indexRouter.get("/", checkAuthenticated, async (req, res) => {
   try {
-    const folders = await prisma.folder.findMany({
+    const rootFolder = await prisma.folder.findFirst({
       where: {
+        name: "root",
         userId: req.user.id,
       },
     });
 
-    const files = await prisma.file.findMany({
-      where: { userId: req.user.id },
+    res.render("index", {
+      rootFolder: rootFolder,
     });
-    const userWithFilesAndFolders = await prisma.user.findUnique({
-      where: {
-        id: req.user.id,
-      },
-      include: {
-        files: true,
-        folders: true,
-      },
-    });
-    console.log(userWithFilesAndFolders);
-    res.render("index", { user: userWithFilesAndFolders });
   } catch (error) {
     console.log(error);
   }
