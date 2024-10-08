@@ -1,26 +1,17 @@
-<h1><%= user.name%></h1>
+<h1>This is the home page, Welcome!</h1>
+
 <a href="/upload-file">upload file</a>
 <!-- <a href="/create-folder">Create a folder</a> -->
 <form action="/create-folder" method="POST">
   <button>Create folder</button>
 </form>
 
-
 <form action="/logout?_method=DELETE" method="POST">
   <button>Logout</button>
 </form>
-<div class="folders-files-container">
-  <h2>Folders</h2>
-  <div class="folder-container"></div>
-  <% user.folders.forEach(function(folder) { %>
-    <li><%= folder.name %> (ID: <%= folder.id %>)</li>
-<% }); %>
-</div>
-<div class="file-container"></div>
-<h2>Files</h2>
-  <% user.files.forEach(function(file) { %>
-    <li><%= file.name %> (ID: <%= file.id %>)</li>
-<% }); %>
-</div>
-</div>
 
+<form action="" method="GET"></form>
+  <button>Storage</button>
+</form>
+
+<a href="/storage/ <%= rootFolder.id %>">go </a>
