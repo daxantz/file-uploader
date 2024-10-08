@@ -13,4 +13,10 @@ router.post(
   folderController.folderPut
 );
 
+router.patch(
+  "/update-folder/:id",
+  auth.checkAuthenticated,
+  folderController.folderPatch
+);
+
 module.exports = router;
