@@ -43,11 +43,9 @@ model File {
   user User? @relation(fields: [userId], references: [id])
   userId Int? 
   parentFolderId Int?
-  mimetype String
-  destination String
-  filename String
-  path String
   size Int
+  path String?
+  
 }
 
 model Session {
