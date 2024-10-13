@@ -32,8 +32,16 @@
   </li>
   <% }); %> <% folder.files.forEach(function(file) { %>
   <li>
-    <a href="/storage/<%= file.id %>"><%= file.name %></a>
+    <a href="/file/<%= file.id %>"><%= file.name %></a>
     (ID: <%= file.id %>)parent: <%= file.parentFolderId %>
+    <form action="/update-file/<%= file.id %>/?_method=PATCH" method="post">
+      <input type="text" name="new_file_name" />
+      <button>Confirm</button>
+    </form>
+    <form action="/delete-file/<%= file.id %>/?_method=DELETE" method="post">
+      <button>Delete</button>
+    </form>
+    <button><a href="/file/<%= file.id %>">Details</a></button>
   </li>
   <% }) %>
 </ul>
