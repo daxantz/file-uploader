@@ -1,4 +1,15 @@
-<h1>This is the home page, Welcome!</h1>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <h1>This is the home page, Welcome!</h1>
 
 <a href="/upload-file">upload file</a>
 <!-- <a href="/create-folder">Create a folder</a> -->
@@ -14,4 +25,7 @@
   <button>Storage</button>
 </form>
 
-<a href="/storage/ <%= rootFolder.id %>">go </a>
+<a href="/storage/<%= rootFolder.id %>">go </a>
+  
+</body>
+</html>
