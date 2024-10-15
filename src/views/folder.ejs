@@ -1,47 +1,158 @@
-<h1><%= folder.name %> <%= folder.id %></h1>
-<form action="/create-folder/<%= folder.id %> " method="post">
-  <button>Create folder</button>
-</form>
-<form
-  action="/upload-file/<%= folder.id %>"
-  enctype="multipart/form-data"
-  method="post"
->
-  <div class="form-group">
-    <input type="file" class="form-control-file" name="uploaded_file" />
-  </div>
-  <button type="submit">Submit</button>
-</form>
-//render all items (folders/files) that belong to root folder
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/output.css" />
+  </head>
+  <body>
+    <%- include('authenticated-navbar') %>
 
-<ul>
-  <% currentFolders.forEach(function(folder) { %>
-  <li>
-    <a href="/storage/<%= folder.id %>"><%= folder.name %></a>
-    (ID: <%= folder.id %>)parent: <%= folder.parentFolderId %>
-    <form action="/update-folder/<%= folder.id %>/?_method=PATCH" method="post">
-      <input type="text" name="newName" />
-      <button>Confirm</button>
-    </form>
-    <form
-      action="/delete-folder/<%= folder.id %>/?_method=DELETE"
-      method="post"
-    >
-      <button>Delete</button>
-    </form>
-  </li>
-  <% }); %> <% folder.files.forEach(function(file) { %>
-  <li>
-    <a href="/file/<%= file.id %>"><%= file.name %></a>
-    (ID: <%= file.id %>)parent: <%= file.parentFolderId %>
-    <form action="/update-file/<%= file.id %>/?_method=PATCH" method="post">
-      <input type="text" name="new_file_name" />
-      <button>Confirm</button>
-    </form>
-    <form action="/delete-file/<%= file.id %>/?_method=DELETE" method="post">
-      <button>Delete</button>
-    </form>
-    <button><a href="/file/<%= file.id %>">Details</a></button>
-  </li>
-  <% }) %>
-</ul>
+    <h1 class="text-center text-4xl"><%= folder.name %> <%= folder.id %></h1>
+    <!-- Open the modal using ID.showModal() method -->
+    <div class="modals">
+      <dialog id="my_modal_1" class="modal">
+        <div class="modal-box">
+          <h3 class="text-lg font-bold">Select a file</h3>
+          <form
+            class="flex mt-3 gap-1"
+            action="/upload-file/<%= folder.id %>"
+            enctype="multipart/form-data"
+            method="post"
+          >
+            <div class="form-group">
+              <!-- <input type="file" class="form-control-file" name="uploaded_file" /> -->
+
+              <input
+                name="uploaded_file"
+                type="file"
+                class="file-input w-full max-w-md"
+              />
+            </div>
+            <button class="btn" type="submit">Submit</button>
+          </form>
+
+          <p class="py-4">Press ESC key or click the button below to close</p>
+          <div class="modal-action">
+            <form method="dialog">
+              <!-- if there is a button in form, it will close the modal -->
+              <button class="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+
+      <!-- Open the modal using ID.showModal() method -->
+
+      <dialog id="my_modal_2" class="modal">
+        <div class="modal-box">
+          <h3 class="text-lg font-bold mb-2">Create a Folder</h3>
+          <form
+            class="flex justify-center"
+            action="/create-folder/<%= folder.id %>"
+            method="post"
+          >
+            <div class="join">
+              <input
+                class="input join-item"
+                placeholder="Folder Name"
+                name="folderName"
+              />
+              <button class="btn join-item">Create Folder</button>
+            </div>
+          </form>
+
+          <p class="py-4">Press ESC key or click the button below to close</p>
+          <div class="modal-action">
+            <form method="dialog">
+              <!-- if there is a button in form, it will close the modal -->
+              <button class="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+    </div>
+
+    <!-- Render all items (folders/files) that belong to the root folder -->
+    <div class="folders p-5">
+      <h2 class="text-2xl font-bold text-center">Folders</h2>
+      <div class="overflow-x-auto folders-table">
+        <table class="table table-zebra">
+          <!-- head -->
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Last Updated</th>
+              <th>ID</th>
+              <th class="flex justify-end">
+                <button
+                  class="btn btn-success text-white"
+                  onclick="my_modal_2.showModal()"
+                >
+                  Create Folder
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- row 1 -->
+            <% currentFolders.forEach(function(folder) { %>
+            <tr>
+              <td><%= folder.name %></td>
+              <td><%= folder.updatedAt %></td>
+              <td><%= folder.id %></td>
+              <td class="flex justify-end">
+                <button class="btn btn-primary">
+                  <a href="/storage/<%= folder.id %>">View Folder</a>
+                </button>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+          <!-- Close tbody here -->
+        </table>
+      </div>
+    </div>
+
+    <div class="files p-5 border">
+      <h2 class="text-2xl font-bold text-center">Files</h2>
+      <div class="overflow-x-auto">
+        <table class="table table-zebra">
+          <!-- head -->
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Last Updated</th>
+              <th>Size</th>
+              <th class="flex justify-end">
+                <button
+                  class="btn btn-success text-white"
+                  onclick="my_modal_1.showModal()"
+                >
+                  Upload a file
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- row 1 -->
+            <% folder.files.forEach(function(file) { %>
+            <tr>
+              <td><a href="/file/<%= file.id %>"><%= file.name %></a></td>
+              <td><%= file.updatedAt %></td>
+              <td><%= file.size %></td>
+              <td class="flex justify-end">
+                <button class="btn btn-primary">
+                  <a href="/file/<%= file.id %>">View Details</a>
+                </button>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+          <!-- Close tbody here -->
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
