@@ -1,31 +1,56 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-  <h1>This is the home page, Welcome!</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
 
-<a href="/upload-file">upload file</a>
-<!-- <a href="/create-folder">Create a folder</a> -->
-<form action="/create-folder" method="POST">
-  <button>Create folder</button>
-</form>
-
-<form action="/logout?_method=DELETE" method="POST">
-  <button>Logout</button>
-</form>
-
-<form action="" method="GET"></form>
-  <button>Storage</button>
-</form>
-
-<a href="/storage/<%= rootFolder.id %>">go </a>
-  
-</body>
+    <link rel="stylesheet" href="/output.css" />
+  </head>
+  <body>
+    <%- include('authenticated-navbar') %>
+    <main class="flex flex-col gap-10">
+      <h1 class="text-2xl text-center mt-12">Welcome to Odin Storage!</h1>
+      <div class="w-4/5 mx-auto p-5">
+        <p>
+          Odin Storage is your go-to solution for managing files and folders
+          with ease. Whether you're a student, a professional, or anyone looking
+          to organize digital content, our app offers a user-friendly interface
+          to enhance your workflow.
+        </p>
+        <div class="p-5">
+          <h2>What you can do:</h2>
+          <ul class="list-disc flex flex-col gap-3">
+            <li>
+              Authenticate Securely: Log in to your account and enjoy a
+              personalized experience with our robust session-based
+              authentication powered by Passport.js.
+            </li>
+            <li>
+              Organize Your Files: Create, read, update, and delete folders to
+              keep your files neatly organized.
+            </li>
+            <li>
+              Upload Files Effortlessly: Easily upload files from your device,
+              and manage them within the folders you create.
+            </li>
+            <li>
+              View File Details: Get quick access to important information about
+              your files, including name, size, and upload time.
+            </li>
+            <li>
+              Download Your Files: Retrieve your files whenever you need them
+              with a simple click.
+            </li>
+          </ul>
+        </div>
+        <p class="text-center">
+          Join us in making file management straightforward and efficient!
+        </p>
+        <button class="bg-blue-700 text-white px-3 py-1 rounded-md">
+          <a href="/storage/<%= rootFolder.id %>">Get Started</a>
+        </button>
+      </div>
+    </main>
+  </body>
 </html>
