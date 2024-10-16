@@ -96,15 +96,17 @@ exports.downloadFile = async (req, res) => {
     // });
     const { data, error } = supabase.storage
       .from("files")
-      .getPublicUrl(`uploads/${file.name}`);
-    console.log(data.publicUrl);
+      .getPublicUrl(file.path);
+    console.log("public url :", data.publicUrl);
     console.log(file.path);
+
     if (error) {
       console.error("problem downloading file", error);
       throw error;
     }
-
-    res.redirect(`${data.publicUrl}?download=${file.name}`); //download query parameter forces file download, if not included client only redirects to file without downloading it
+    console.log(file);
+    res.redirect(`${data.publicUrl}?download=${file.name}`);
+    // res.redirect(`${data.publicUrl}?download=${file.name}`); //download query parameter forces file download, if not included client only redirects to file without downloading it
   } catch (error) {
     console.log(error);
   }
