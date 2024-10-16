@@ -25,17 +25,18 @@ exports.folderPageGet = async (req, res) => {
 };
 exports.folderPut = async (req, res) => {
   try {
+    const { folderName } = req.body;
     const rootFolder = await prisma.folder.findFirst({
       where: { name: "root", userId: req.user.id },
     });
-    await prisma.folder.create({
+    const folder = await prisma.folder.create({
       data: {
-        name: "new folder",
+        name: folderName,
         userId: req.user.id,
         parentFolderId: Number(req.params.id),
       },
     });
-    console.log("folder added");
+    console.log("folder added, folder: ", folder.name);
     res.redirect(`/storage/${req.params.id}`);
   } catch (error) {
     console.log(error);
