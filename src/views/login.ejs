@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="/output.css">
+    <script>
+      
+      // sets input values to demo user credentials 
+      function setDemoUserDetails(){
+        const email = document.querySelector('#email');
+      const password = document.querySelector('#password');
+      const inputGroup = document.querySelector('.input-group')
+      inputGroup.classList.add('hidden');
+        email.value = 'demo@gmail.com'
+        password.value = 'demo'
+       
+      }
+    </script>
   <body class="font-mono">
     <%- include('login-navbar') %>
     
@@ -13,21 +26,23 @@
       <h1 class="text-5xl mb-10">Login</h1>
       <form class="h-72 flex flex-col justify-evenly border border-gray-400 rounded-2xl  min-w-80 p-3" action="/login" method="post">
         
-        <div class="">
+        <div class="input-group">
           <div>
             <label class="block" for="email">Email:</label>
-            <input class="border border-black w-full rounded-md p-2" type="email" name="email" />
+            <input id="email" class="border border-black w-full rounded-md p-2" type="email" name="email" />
           </div>
           <div>
             <label for="password">Password</label>
-            <input class="border border-black w-full rounded-md p-2" type="password" name="password" />
+            <input id="password" class="border border-black w-full rounded-md p-2" type="password" name="password" />
           </div>
         </div>
         
   
         <div class="flex flex-col gap-3"><button class="bg-blue-700 text-white px-3 py-1 w-full rounded-md" type="submit">Login</button>
-        <button class="bg-green-700 text-white px-3 py-1 w-full rounded-md">Login to Demo account</button></div>
+        <button class="bg-green-700 text-white px-3 py-1 w-full rounded-md" onclick="setDemoUserDetails()">Login to Demo account</button></div>
       </form>
+      
+
     </div>
     
   </body>
